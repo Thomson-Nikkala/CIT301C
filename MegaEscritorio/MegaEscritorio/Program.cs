@@ -22,7 +22,7 @@ namespace MegaEscritorio
             int numDrawers = 0;           // number of drawers in desk
             string surfaceMaterial = "";  // surface material of desktop
             string shippingSpeed = "";    // delivery shipping speed
-            string outputFileName = "";   // filname for output
+            string outputFileName = "";   // filename for output
             bool success = false;         // boolean to use for validating input
             int[,] rushOrderArray = new int[3, 3];  //details for rush order shipping fees
             int priceFromSurfaceArea = 0;  
@@ -173,12 +173,20 @@ namespace MegaEscritorio
                 {
                     Console.Write("\nEnter filename to save price information (include new path if desired):  \n");
                     outputFileName = Console.ReadLine();
-                    string[] lines = {string.Format("\nBase desk price: \t{0,10:C}", BaseDeskPrice / 100),
-                    string.Format("Price from surface area: {0,9:C}", priceFromSurfaceArea / 100),
-                    string.Format("Price from drawers: \t{0,10:C}", priceFromDrawers / 100),
-                    string.Format("Surface material fee: \t{0,10:C}", surfaceMaterialFee / 100),
-                    string.Format("Delivery fee: \t\t{0,10:C}", deliveryFee / 100),
-                    string.Format("Total Desk Price: \t{0,10:C}", deskPrice / 100)};
+                    string[] lines = {
+                        "{",
+                        string.Format("\"deskWidth\":{0},",deskWidth),
+                        string.Format("\"deskLength\":{0},",deskLength),
+                        string.Format("\"numDrawers\":{0},",numDrawers),
+                        string.Format("\"surfaceMaterial\":\"{0}\",",surfaceMaterial),
+                        string.Format("\"shippingSpeed\":\"{0}\",",shippingSpeed),
+                        string.Format("\"BaseDeskPrice\":20000,"),
+                        string.Format("\"priceFromSurfaceArea\":{0},",priceFromSurfaceArea),
+                        string.Format("\"priceFromDrawers\":{0},",priceFromDrawers),
+                        string.Format("\"surfaceMaterialFee\":{0},",surfaceMaterialFee),
+                        string.Format("\"deliveryFee\":{0},",deliveryFee),
+                        string.Format("\"deskPrice\":{0},",deskPrice),"}"
+                    };      
                     System.IO.File.WriteAllLines(@outputFileName, lines);
                     success = true;
                 }
@@ -190,8 +198,6 @@ namespace MegaEscritorio
 
             Console.WriteLine("\nThank you for shopping at Mega Escritorio!");
 
-            // pause the program until the user presses a key to give them time to read what is on the screen
-            Console.ReadKey();
         }
         
         // calculate price from surface area
